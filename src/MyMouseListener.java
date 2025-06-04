@@ -19,11 +19,11 @@ public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 �
 	private boolean isCreating = false;
 	private int isDrawing = 0;
 	
-	List<Integer> click_x, click_y;
+	Pair<List<Integer>, List<Integer>> click;
 	List<Component> selectedList;
 	
 	Rectangle removeSize;
-	Point rightDragStart, rightDragFinish = new Point(0, 0);
+	Pair<Point, Point> rightDrag = new Pair<>(new Point(0, 0), new Point(0, 0));
 	
 	Connection connection;
 	JLayeredPane layeredPane;
@@ -36,8 +36,7 @@ public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 �
 		this.removeLabel = removeLabel;
 		this.gateFactory = gateFactory;
 		selectedList = new ArrayList<Component>();
-		click_x = new ArrayList<Integer>();
-		click_y = new ArrayList<Integer>();
+		click = new Pair<>(new ArrayList<Integer>(), new ArrayList<Integer>());
 		removeSize = removeLabel.getBounds();
 	}
 	
@@ -57,21 +56,19 @@ public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 �
     						selectedList.add(source);    
     						((Gate) source).setSelcect(true);
     					}
-    					click_x.clear();
-    					click_y.clear();
+    					click.clear();
     					for(Component select : selectedList) {
-    						click_x.add(e.getX() - select.getLocation().x);
-    						click_y.add(e.getY() - select.getLocation().y);    						
+    						click.getFirst().add(e.getX() - select.getLocation().x);
+    						click.getSecond().add(e.getY() - select.getLocation().y);    						
     					}
     					isMoving = true;
     				}
     				else { // input / output 클릭했을때 isDrawing 변환시켜서 '선 그리기' 활성화
-    					click_x.clear();
-    					click_y.clear();
+    					click.clear();
     					source = source.getParent();
-    					click_x.add(e.getX());
-    					click_y.add(e.getY());
-    					connection.setStartPoint(0, click_x.get(0), click_y.get(0));
+    					click.getFirst().add(e.getX());
+    					click.getSecond().add(e.getY());
+    					connection.setStartPoint(0, click.getPoint());
     					if (source instanceof Input) {
     						isDrawing = 2;
     						selectedList.add(source);
@@ -120,8 +117,8 @@ public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 �
     		}
     		else if(e.getButton() == MouseEvent.BUTTON3) {
     			selecting = true;
-    			rightDragStart = new Point(e.getX(), e.getY());
-    			connection.setStartPoint(0, rightDragStart.x, rightDragStart.y);
+    			rightDrag.setFirst(e.getPoint());
+    			connection.setStartPoint(0, rightDrag.getFirst());
     		}
     	}
     	else {
@@ -144,8 +141,8 @@ public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 �
     public void mouseMoved(MouseEvent e) {
     	if(isCreating) {
     		for(int i=0;i<selectedList.size();i++) {
-				int newX = e.getX() + click_x.get(i);
-				int newY = e.getY() + click_y.get(i);
+				int newX = e.getX() + click.getFirst().get(i);
+				int newY = e.getY() + click.getSecond().get(i);
 				selectedList.get(i).setLocation(newX, newY);				
 			}
     	}
@@ -154,20 +151,20 @@ public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 �
     public void mouseDragged(MouseEvent e) { // 마우스 드래그할때
     	if (isMoving) { // '게이트 움직이기' 활성화 상태일때 저장해놓은 좌표 비교해서 움직이기
 			for(int i=0;i<selectedList.size();i++) {
-				int newX = e.getX() - click_x.get(i);
-				int newY = e.getY() - click_y.get(i);
+				int newX = e.getX() - click.getFirst().get(i);
+				int newY = e.getY() - click.getSecond().get(i);
 				selectedList.get(i).setLocation(newX, newY);				
 			}
 			removeLabel.setVisible(true);
 			connection.repaint();
 		}
     	else if (isDrawing != 0) { // '선 그리기' 활성화 상태일때 선그리는 connection 좌표 보내주기
-			connection.setFinishPoint(1, e.getX(), e.getY());
+			connection.setFinishPoint(1, e.getPoint());
 			connection.repaint();
 		}    		
     	else if (selecting) {
-			rightDragFinish = new Point(e.getX(), e.getY());
-			connection.setFinishPoint(2, e.getX(), e.getY());
+    		rightDrag.setSecond(e.getPoint());
+			connection.setFinishPoint(2, e.getPoint());
 			connection.repaint();
 		}
     }
@@ -194,14 +191,15 @@ public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 �
     				}
     			}
     			isDrawing = 0;
-    			connection.setFinishPoint(0, 0, 0);
+    			connection.setFinishPoint(0, new Point(0, 0));
     		}
     		else if(isMoving) { // '게이트 움직이기' 활성화 상태일때 삭제하는 label 위에 마우스가 있으면 삭제
     			Point mousePoint = e.getPoint();
     			if(removeSize.contains(mousePoint)) {
     				for(Component select : selectedList) {
     					((Gate) select).clearLink();
-    					layeredPane.remove(select);    					    					
+    					layeredPane.remove(select);    	
+    					GateManager.getInstance().getGateList().remove(select);
     				}
     			}
     			isMoving = false;
@@ -221,15 +219,12 @@ public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 �
     				((Gate) select).setSelcect(false);    			
     			}
     		}
-    		Rectangle rightDrag = new Rectangle(Math.min(rightDragStart.x, rightDragFinish.x), 
-    				Math.min(rightDragStart.y, rightDragFinish.y),
-    				Math.abs(rightDragFinish.x - rightDragStart.x),
-    				Math.abs(rightDragFinish.y - rightDragStart.y));
-    		selectedList = GateManager.getInstance().getGateInRange(rightDrag);
+    		Rectangle rightDragRec = rightDrag.getRectangle();
+    		selectedList = GateManager.getInstance().getGateInRange(rightDragRec);
     		for(Component select : selectedList) {
     			((Gate) select).setSelcect(true);
     		}
-    		connection.setFinishPoint(0, 0, 0);
+    		connection.setFinishPoint(0, new Point(0, 0));
     		connection.repaint();
     		selecting = false;
     	}

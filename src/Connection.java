@@ -19,14 +19,14 @@ public class Connection extends JPanel implements Serializable { // 연결 선 �
 		this.setFocusable(false);
 	}
 	
-	public void setStartPoint(int mode, int sx, int sy) {
+	public void setStartPoint(int mode, Point start) {
 		isDraw = mode;
-		start = new Point(sx, sy);
+		this.start = start;
 	}
 	
-	public void setFinishPoint(int mode, int fx, int fy) {
+	public void setFinishPoint(int mode, Point finish) {
 		isDraw = mode;
-		finish = new Point(fx, fy);
+		this.finish = finish;
 	}
 	
     protected void paintComponent(Graphics g) { // 선 그리는 함수
