@@ -63,10 +63,24 @@ public class Menu extends JMenuBar{
 		
 		JMenuItem activateName = new JMenuItem("Activate");
 		JMenuItem inactivateName = new JMenuItem("Inactivate");
+		activateName.setActionCommand("nameActivate");
 		activateName.addActionListener(menuItemListener);
+		inactivateName.setActionCommand("nameInactivate");
 		inactivateName.addActionListener(menuItemListener);
 		setNameActivate.add(activateName);
 		setNameActivate.add(inactivateName);
+		
+		JMenu setStateActive = new JMenu("Show State");
+		setMenu.add(setStateActive);
+		
+		JMenuItem activateState = new JMenuItem("Activate");
+		JMenuItem inactivateState = new JMenuItem("Inactivate");
+		activateState.setActionCommand("stateActivate");
+		activateState.addActionListener(menuItemListener);
+		inactivateState.setActionCommand("stateInactivate");
+		inactivateState.addActionListener(menuItemListener);
+		setStateActive.add(activateState);
+		setStateActive.add(inactivateState); 
 		
 		JMenuItem setGateMoveSpeed = new JMenuItem("Set Move Speed");
 		setGateMoveSpeed.addActionListener(menuItemListener);

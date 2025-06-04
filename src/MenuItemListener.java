@@ -41,11 +41,17 @@ public class MenuItemListener implements ActionListener {
 				GateManager.getInstance().clearAll();
 			}
 		}
-		else if(str.equals("Activate")) {
+		else if(str.equals("nameActivate")) {
 			GateManager.getInstance().setNameActivate(true);
 		}
-		else if(str.equals("Inactivate")) {
+		else if(str.equals("nameInactivate")) {
 			GateManager.getInstance().setNameActivate(false);
+		}
+		else if(str.equals("stateActivate")) {
+			GateManager.getInstance().setStateActivate(true);
+		}
+		else if(str.equals("stateInactivate")) {
+			GateManager.getInstance().setStateActivate(false);
 		}
 		else if(str.equals("Shortcut Keys")) {
 			System.out.println("Shortcut Keys : 구현 예정");
@@ -95,8 +101,7 @@ public class MenuItemListener implements ActionListener {
 			    		List<Gate> loadedGateList = (List<Gate>) ois.readObject();
 			    		Map<Input, Output> loadedMap = ((Map<Input, Output>) ois.readObject());
 			    		myMouseListener.setIsCreating();
-			    		myMouseListener.click_x.clear();
-			    		myMouseListener.click_y.clear();
+			    		myMouseListener.click.clear();
 			    		for(Gate gate : loadedGateList) {
 			    			String createGateName = gate.gateLabel.getText().toLowerCase() + "Gate";
 							Method method = GateFactory.class.getDeclaredMethod(createGateName, Gate.class, int.class, int.class);
@@ -104,8 +109,8 @@ public class MenuItemListener implements ActionListener {
 			    			if(gate.gateLabel.getText().equals("Input")) {			    				
 			    				gate.btn.setVisible(false);
 			    			}
-			    			myMouseListener.click_x.add(gate.getX() - loadedGateList.get(0).getX() - Gate.widthSize / 2);
-			    			myMouseListener.click_y.add(gate.getY() - loadedGateList.get(0).getY() - Gate.heightSize / 2);
+			    			myMouseListener.click.getFirst().add(gate.getX() - loadedGateList.get(0).getX() - Gate.widthSize / 2);
+			    			myMouseListener.click.getSecond().add(gate.getY() - loadedGateList.get(0).getY() - Gate.heightSize / 2);
 			    			gate.setSelcect(true);
 			    			myMouseListener.selectedList.add((Component) gate);
 			    		}
@@ -150,11 +155,10 @@ public class MenuItemListener implements ActionListener {
 				Method method = GateFactory.class.getDeclaredMethod(createGateName, Gate.class, int.class, int.class);
 				Object createGate = method.invoke(gateFactory, new Gate(gateFactory.gateInOut.get(str)), 0, 0);
 				((Gate) createGate).setSelcect(true);
-				myMouseListener.click_x.clear();
-				myMouseListener.click_y.clear();
+				myMouseListener.click.clear();
 				myMouseListener.selectedList.add((Component) createGate);
-				myMouseListener.click_x.add(-Gate.widthSize / 2);
-				myMouseListener.click_y.add(-Gate.heightSize /2);
+				myMouseListener.click.getFirst().add(-Gate.widthSize / 2);
+				myMouseListener.click.getSecond().add(-Gate.heightSize /2);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

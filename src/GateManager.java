@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
 public class GateManager { // Gate 관리하는 클래스
@@ -13,7 +14,7 @@ public class GateManager { // Gate 관리하는 클래스
 	private List<Gate> gateList = new ArrayList<>();
 	private Map<Input, Output> connectMap = new HashMap<>();
 	private boolean nameActivate = false;
-	private double gateScale = 1.0;
+	private boolean stateActivate = false;
 	private int gateMoveSpeed = 5;
 	private boolean gateMoving = true;
 	private JLayeredPane layeredPane;
@@ -42,8 +43,8 @@ public class GateManager { // Gate 관리하는 클래스
 		return nameActivate;
 	}
 	
-	public double getGateScale() {
-		return gateScale;
+	public boolean getStateActivate() {
+		return stateActivate;
 	}
 	
 	public int getGateMoveSpeed() {
@@ -83,12 +84,13 @@ public class GateManager { // Gate 관리하는 클래스
 		}
 	}
 	
-	public void setGateScale(double scale) {
-		gateScale += scale;
+	public void setStateActivate(Boolean tf) {
+		stateActivate = tf;
 		for(Gate gate : gateList) {
-			gate.width = (int) Math.round(gate.widthSize * scale);
-			gate.height = (int) Math.round(gate.heightSize * scale);
-			gate.setBounds(gate.getX(), gate.getY(), gate.width, gate.height);
+			gate.resultLabel.setVisible(stateActivate);
+			for(JLabel inputLabel : gate.inputLabel) {
+				inputLabel.setVisible(stateActivate);
+			}
 		}
 	}
 	
