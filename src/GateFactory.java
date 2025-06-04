@@ -1,12 +1,14 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Map;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
@@ -58,8 +60,9 @@ public class GateFactory { // 게이트 만드는 클래스
 	}
 	
 	Gate setGate(Gate myGate, int x, int y) { // Gate 기본 설정 함수
-		myGate.setBounds(x, y, myGate.widthSize, myGate.heightSize);
+		myGate.setBounds(x, y, myGate.widthSize + 20, myGate.heightSize + 20);
 		myGate.gateLabel.setVisible(GateManager.getInstance().getNameActivate());
+		myGate.resultLabel.setVisible(GateManager.getInstance().getStateActivate());
 		layeredPane.add(myGate, JLayeredPane.PALETTE_LAYER);
 		GateManager.getInstance().addGate(myGate);
 		myGate.setSelcect(false);
@@ -75,7 +78,7 @@ public class GateFactory { // 게이트 만드는 클래스
 		
 		newGate.btn = new JButton("0"); // 버튼 추가
 		newGate.btn.setFocusable(false);
-		newGate.btn.setBounds(25, 30, newGate.widthSize - 50, newGate.heightSize - 60);
+		newGate.btn.setBounds(35, 30 + Gate.fontSize, newGate.widthSize - 50, newGate.heightSize - 60);
 		
 		newGate.gateLabel.setText("INPUT");
 		
@@ -97,22 +100,22 @@ public class GateFactory { // 게이트 만드는 클래스
 	
 	Gate outputGate(Gate newGate, int x, int y) { // outputGate 만드는 함수
 		
-		newGate.resultLabel.setBounds(50, 10, newGate.widthSize - 50, newGate.heightSize - 20);
-		newGate.add(newGate.resultLabel);
+		newGate.outputLabel.setFont(newGate.outputLabel.getFont().deriveFont(20f));
+		newGate.outputLabel.setBounds(newGate.width / 2, newGate.height / 2 - 10 + 7, 20, 20);
+		newGate.add(newGate.outputLabel);
 		
 		newGate.gateLabel.setText("OUTPUT");
 		
 		newGate.updateLogic = () -> {
-			newGate.setState(newGate.input[0].getState());
+			int nowState = newGate.input[0].getState();
+			newGate.setState(nowState);
+			newGate.outputLabel.setText(nowState < 0 ? "?" : Integer.toString(nowState));
 		};
 		
 		return setGate(newGate, x, y);
 	}
 	
 	Gate andGate(Gate newGate, int x, int y) { // andGate 만드는 함수
-		
-		newGate.resultLabel.setBounds(50, 10, newGate.widthSize - 50, newGate.heightSize - 20);
-		newGate.add(newGate.resultLabel);
 		
 		newGate.gateLabel.setText("AND");
 		
@@ -136,9 +139,6 @@ public class GateFactory { // 게이트 만드는 클래스
 	
 	Gate orGate(Gate newGate, int x, int y) { // orGate 만드는 함수
 		
-		newGate.resultLabel.setBounds(50, 10, newGate.widthSize - 50, newGate.heightSize - 20);
-		newGate.add(newGate.resultLabel);
-		
 		newGate.gateLabel.setText("OR");
 		
 		newGate.updateLogic = () -> { // or 계산
@@ -161,9 +161,6 @@ public class GateFactory { // 게이트 만드는 클래스
 	
 	Gate notGate(Gate newGate, int x, int y) { // notGate 만드는 함수
 		
-		newGate.resultLabel.setBounds(50, 10, newGate.widthSize - 50, newGate.heightSize - 20);
-		newGate.add(newGate.resultLabel);
-		
 		newGate.gateLabel.setText("NOT");
 		
 		newGate.updateLogic = () -> { // not 계산
@@ -180,9 +177,6 @@ public class GateFactory { // 게이트 만드는 클래스
 	
 
 	Gate nandGate(Gate newGate, int x, int y) {
-		
-		newGate.resultLabel.setBounds(50, 10, newGate.widthSize - 50, newGate.heightSize - 20);
-		newGate.add(newGate.resultLabel);
 		
 		newGate.gateLabel.setText("NAND");
 		
@@ -207,9 +201,6 @@ public class GateFactory { // 게이트 만드는 클래스
 
 	Gate norGate(Gate newGate, int x, int y) {
 		
-		newGate.resultLabel.setBounds(50, 10, newGate.widthSize - 50, newGate.heightSize - 20);
-		newGate.add(newGate.resultLabel);
-		
 		newGate.gateLabel.setText("NOR");
 		
 		newGate.updateLogic = () -> {
@@ -233,9 +224,6 @@ public class GateFactory { // 게이트 만드는 클래스
 
 	Gate xorGate(Gate newGate, int x, int y) {
 		
-		newGate.resultLabel.setBounds(50, 10, newGate.widthSize - 50, newGate.heightSize - 20);
-		newGate.add(newGate.resultLabel);
-		
 		newGate.gateLabel.setText("XOR");
 		
 		newGate.updateLogic = () -> {
@@ -257,9 +245,6 @@ public class GateFactory { // 게이트 만드는 클래스
 	}
 	
 	Gate xnorGate(Gate newGate, int x, int y) {
-		
-		newGate.resultLabel.setBounds(50, 10, newGate.widthSize - 50, newGate.heightSize - 20);
-		newGate.add(newGate.resultLabel);
 		
 		newGate.gateLabel.setText("XNOR");
 		

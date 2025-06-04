@@ -20,6 +20,7 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 	JLabel inputLabel[];
 	JLabel resultLabel; // 결과 보여주는 label
 	JLabel gateLabel; // gate 종류 보여주는 label
+	JLabel outputLabel;
 	
 	JButton btn;
 	transient Runnable updateLogic; // 게이트별 논리
@@ -28,6 +29,7 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 	
 	public static final int widthSize = 100;
 	public static final int heightSize = 100;
+	public static final int fontSize = 10;
 	public static final Color selectColor = Color.GREEN;
 	public static final Color originColor = Color.BLUE; 
 	
@@ -37,7 +39,10 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 	int height = heightSize;
 	int inOutGap = width / 5;
 	
-	Point gateLabelSize = new Point(30, 30);
+	boolean isSelcted = false;
+	
+	
+	Point labelSize = new Point(60, 15);
 	
 	private int inputNum;
 	private int outputNum;
@@ -53,12 +58,16 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 		output = new Output[outputNum];
 		input = new Input[inputNum];		
 		inputLabel = new JLabel[inputNum];
-		resultLabel = new JLabel("?");
+		resultLabel = new JLabel("state : ?");
+		outputLabel = new JLabel("?");
 		
 		gateLabel = new JLabel();
-		gateLabel.setBounds(widthSize/2 - gateLabelSize.x/2, 0, gateLabelSize.x, gateLabelSize.y);
+		gateLabel.setBounds(20, 0, labelSize.x, labelSize.y);
 		gateLabel.setVisible(false);
 		this.add(gateLabel);
+		
+		resultLabel.setBounds(width / 2 - labelSize.x / 2, height - 2, labelSize.x, labelSize.y);
+		this.add(resultLabel);
 		
 		int inputGap = (heightSize / 5 * 4) / (inputNum + 1);
 		int outputGap = (heightSize / 5 * 4) / (outputNum + 1);			
@@ -69,21 +78,23 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 
 		for(int i=0;i<inputNum;i++) { // input 붙이기
 			input[i] = new Input(-1, this);
-			input[i].setBounds(0 , (i + 1) * inputGap, input[i].width, input[i].height);
+			input[i].setBounds(0 , (i + 1) * inputGap + fontSize, input[i].width, input[i].height);
 			
 			inputLabel[i] = new JLabel("?");
 			inputLabel[i].setVerticalAlignment(SwingConstants.TOP);
-			inputLabel[i].setBounds(input[i].width * 2, (i + 1) * inputGap, input[i].width, input[i].height);
+			inputLabel[i].setBounds(input[i].width, (i + 1) * inputGap + fontSize + 4, input[i].width, input[i].height * 2);
+			inputLabel[i].setVisible(GateManager.getInstance().getStateActivate());
 			
 			component.add(input[i]);
 			component.add(inputLabel[i]);
+			
 			this.add(input[i]);
 			this.add(inputLabel[i]);
 		}
 		
 		for(int i=0;i<outputNum;i++) { // output 붙이기
 			output[i] = new Output(-1, this);
-			output[i].setBounds(widthSize - output[i].width * 2, (i + 1) * outputGap, output[i].width, output[i].height);
+			output[i].setBounds(widthSize + 20 - output[i].width, (i + 1) * outputGap + fontSize + 4, output[i].width, output[i].height);
 			
 			component.add(output[i]);
 			this.add(output[i]);
@@ -115,13 +126,6 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 		}
 	}
 	
-	public void setScale(double scale) {
-		for (Object obj : component) {
-			Component comp = (Component) obj;
-			comp.setBounds(comp.getX(), comp.getY(), 0, 0);
-		}
-	}
-	
 	public void setInputNum(int num) {
 		int i;
 		Input[] oldInput = input;
@@ -140,14 +144,14 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 				input[i] = new Input(-1, this);
 				inputLabel[i] = new JLabel("?");
 				inputLabel[i].setVerticalAlignment(SwingConstants.TOP);
+				inputLabel[i].setVisible(GateManager.getInstance().getStateActivate());
 				component.add(input[i]);
 				component.add(inputLabel[i]);
 				this.add(input[i]);
 				this.add(inputLabel[i]);
 			}
-			input[i].height = inputGap;
-			input[i].setBounds(0 , (i + 1) * inputGap, input[i].width, input[i].height);
-			inputLabel[i].setBounds(input[i].width * 2, (i + 1) * inputGap, input[i].width, input[i].height);
+			input[i].setBounds(0 , (i + 1) * inputGap + fontSize, input[i].width, input[i].height);
+			inputLabel[i].setBounds(input[i].width, (i + 1) * inputGap + fontSize + 4, input[i].width, input[i].height * 2);
 		}
 		for(;i<oldInputNum;i++) {
 			oldInput[i].link(null);
@@ -167,10 +171,11 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 	
 	protected void paintComponent(Graphics g) { // 테두리 그려주는 코드 (이미지로 대체할 예정)
 		super.paintComponent(g);
-		g.drawImage(img, 0, 0, width, height, this);
+		g.drawImage(img, 10, 10, width, height, this);
 	}
 	
 	void setSelcect(boolean tf) {
+		isSelcted = tf;
 		img = new ImageIcon(getClass().getResource("/img/"+gateLabel.getText().toLowerCase() + (tf ? "_selected" : "_normal") + ".png")).getImage();
 		repaint();
 	}
@@ -179,7 +184,7 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 		if(updateLogic != null) {
 			updateLogic.run();
 		}
-		resultLabel.setText((myState < 0) ? "?" : Integer.toString(myState));
+		resultLabel.setText("state : " + ((myState < 0) ? "?" : Integer.toString(myState)));
 		for(int i=0;i<inputNum;i++) {
 			inputLabel[i].setText((input[i].getState() < 0) ? "?" : Integer.toString(input[i].getState()));
 		}
