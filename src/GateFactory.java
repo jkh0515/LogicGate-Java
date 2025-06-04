@@ -63,6 +63,9 @@ public class GateFactory { // 게이트 만드는 클래스
 		myGate.setBounds(x, y, myGate.widthSize + 20, myGate.heightSize + 20);
 		myGate.gateLabel.setVisible(GateManager.getInstance().getNameActivate());
 		myGate.resultLabel.setVisible(GateManager.getInstance().getStateActivate());
+		for(JLabel label : myGate.inputLabel) {
+			label.setVisible(GateManager.getInstance().getStateActivate());
+		}
 		layeredPane.add(myGate, JLayeredPane.PALETTE_LAYER);
 		GateManager.getInstance().addGate(myGate);
 		myGate.setSelcect(false);

@@ -26,6 +26,7 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 	transient Runnable updateLogic; // 게이트별 논리
 	
 	transient Image img;
+	Image inOutLine = new ImageIcon(getClass().getResource("/img/in_out_line.png")).getImage();
 	
 	public static final int widthSize = 100;
 	public static final int heightSize = 100;
@@ -78,11 +79,11 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 
 		for(int i=0;i<inputNum;i++) { // input 붙이기
 			input[i] = new Input(-1, this);
-			input[i].setBounds(0 , (i + 1) * inputGap + fontSize, input[i].width, input[i].height);
+			input[i].setBounds(0 , (i + 1) * inputGap + fontSize + 5, input[i].width, input[i].height);
 			
 			inputLabel[i] = new JLabel("?");
 			inputLabel[i].setVerticalAlignment(SwingConstants.TOP);
-			inputLabel[i].setBounds(input[i].width, (i + 1) * inputGap + fontSize + 4, input[i].width, input[i].height * 2);
+			inputLabel[i].setBounds(input[i].width, (i + 1) * inputGap + fontSize + 9, input[i].width, input[i].height * 2);
 			inputLabel[i].setVisible(GateManager.getInstance().getStateActivate());
 			
 			component.add(input[i]);
@@ -150,8 +151,8 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 				this.add(input[i]);
 				this.add(inputLabel[i]);
 			}
-			input[i].setBounds(0 , (i + 1) * inputGap + fontSize, input[i].width, input[i].height);
-			inputLabel[i].setBounds(input[i].width, (i + 1) * inputGap + fontSize + 4, input[i].width, input[i].height * 2);
+			input[i].setBounds(0 , (i + 1) * inputGap + fontSize + 5, input[i].width, input[i].height);
+			inputLabel[i].setBounds(input[i].width, (i + 1) * inputGap + fontSize + 9, input[i].width, input[i].height * 2);
 		}
 		for(;i<oldInputNum;i++) {
 			oldInput[i].link(null);
@@ -171,6 +172,12 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 	
 	protected void paintComponent(Graphics g) { // 테두리 그려주는 코드 (이미지로 대체할 예정)
 		super.paintComponent(g);
+		for(Input in : input) {			
+			g.drawImage(inOutLine, 0, in.getY()+3, 70, 30, this);
+		}
+		for(Output out : output) {			
+			g.drawImage(inOutLine, width / 2, out.getY()+3, 70, 30, this);
+		}
 		g.drawImage(img, 10, 10, width, height, this);
 	}
 	
