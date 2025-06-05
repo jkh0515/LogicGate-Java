@@ -1,14 +1,13 @@
 import java.awt.Color;
-import java.awt.Component;
+import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
@@ -70,6 +69,7 @@ public class GateFactory { // 게이트 만드는 클래스
 		GateManager.getInstance().addGate(myGate);
 		myGate.setSelcect(false);
 		myGate.updateState();
+		myGate.inOutLine = new ImageIcon(getClass().getResource("/img/in_out_line.png")).getImage();
 		return myGate;
 	}
 	
@@ -81,7 +81,9 @@ public class GateFactory { // 게이트 만드는 클래스
 		
 		newGate.btn = new JButton("0"); // 버튼 추가
 		newGate.btn.setFocusable(false);
-		newGate.btn.setBounds(35, 30 + Gate.fontSize, newGate.widthSize - 50, newGate.heightSize - 60);
+		newGate.btn.setMargin(new Insets(0, 0, 0, 0));
+		newGate.btn.setBounds(35, 30 + Gate.fontSize, newGate.widthSize - 62, newGate.heightSize - 60);
+		newGate.btn.setFont(newGate.outputLabel.getFont().deriveFont(15f));
 		
 		newGate.gateLabel.setText("INPUT");
 		
@@ -92,6 +94,7 @@ public class GateFactory { // 게이트 만드는 클래스
                 for(int i=0;i<newGate.getOutputNum();i++) {
                 	newGate.output[i].setState(newGate.getState());
                 }
+                newGate.updateState();
             }
         });
 		newGate.btn.setVisible(false);
@@ -104,7 +107,7 @@ public class GateFactory { // 게이트 만드는 클래스
 	Gate outputGate(Gate newGate, int x, int y) { // outputGate 만드는 함수
 		
 		newGate.outputLabel.setFont(newGate.outputLabel.getFont().deriveFont(20f));
-		newGate.outputLabel.setBounds(newGate.width / 2, newGate.height / 2 - 10 + 7, 20, 20);
+		newGate.outputLabel.setBounds(newGate.width / 2 + 2, newGate.height / 2 - 10 + 7, 25, 25);
 		newGate.add(newGate.outputLabel);
 		
 		newGate.gateLabel.setText("OUTPUT");

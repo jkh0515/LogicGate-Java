@@ -13,8 +13,8 @@ public class GateManager { // Gate 관리하는 클래스
 	private static GateManager instance = new GateManager();
 	private List<Gate> gateList = new ArrayList<>();
 	private Map<Input, Output> connectMap = new HashMap<>();
-	private boolean nameActivate = false;
-	private boolean stateActivate = false;
+	private boolean nameActivate = true;
+	private boolean stateActivate = true;
 	private int gateMoveSpeed = 5;
 	private boolean gateMoving = true;
 	private JLayeredPane layeredPane;

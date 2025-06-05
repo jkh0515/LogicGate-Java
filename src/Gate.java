@@ -26,7 +26,7 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 	transient Runnable updateLogic; // 게이트별 논리
 	
 	transient Image img;
-	Image inOutLine = new ImageIcon(getClass().getResource("/img/in_out_line.png")).getImage();
+	transient Image inOutLine;
 	
 	public static final int widthSize = 100;
 	public static final int heightSize = 100;
