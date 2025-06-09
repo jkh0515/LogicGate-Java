@@ -65,15 +65,13 @@ public class GateFactory { // 게이트 만드는 클래스
 		for(JLabel label : myGate.inputLabel) {
 			label.setVisible(GateManager.getInstance().getStateActivate());
 		}
-		//layeredPane.add(myGate, JLayeredPane.PALETTE_LAYER); //replaced
-		//GateManager.getInstance().addGate(myGate); //replaced
 		
 		// changed for using redo/undo
 		GateManager gm = GateManager.getInstance();
 		GateManager.getInstance()
         .getHistory()
         .doCommand(new AddGateCommand(gm, myGate, x, y)); 
-		//
+		
 		
 		
 		myGate.setSelcect(false);

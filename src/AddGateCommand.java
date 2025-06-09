@@ -13,24 +13,24 @@ public class AddGateCommand implements Command {
 
     @Override
     public void execute() {
-        // 1) Add back to the UI
+        // Add back to the UI
         JLayeredPane lp = gm.getLayeredPane();
         lp.add(gate, JLayeredPane.PALETTE_LAYER);
-        // 2) Add to the model
+        // Add to the model
         gm.addGate(gate);
-        // 3) Refresh
+        // Refresh
         lp.revalidate();
         lp.repaint();
     }
 
     @Override
     public void undo() {
-        // 1) Remove from UI
+        // Remove from UI
         JLayeredPane lp = gm.getLayeredPane();
         lp.remove(gate);
-        // 2) Remove from model
+        // Remove from model
         gm.removeGate(gate);
-        // 3) Refresh
+        // Refresh
         lp.revalidate();
         lp.repaint();
     }

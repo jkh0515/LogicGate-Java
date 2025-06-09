@@ -117,7 +117,6 @@ public class GateManager { // Gate 관리하는 클래스
 	// 
 	
 	//ZoomIn/ZoomOut called
-	/** Zoom in by 10% */
 	public void zoomIn() {
 	    scale *= 1.1;
 	    ((ZoomableLayeredPane) layeredPane).setScale(scale);
