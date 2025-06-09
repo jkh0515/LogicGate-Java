@@ -18,7 +18,10 @@ public class LogicGateMain {
 	    frame.setResizable(false);
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	    JLayeredPane layeredPane = new JLayeredPane(); // 레이어 프레임 생성
+	    //JLayeredPane layeredPane = new JLayeredPane(); // 레이어 프레임 생성 OG
+	    
+	    ZoomableLayeredPane layeredPane = new ZoomableLayeredPane(); // //
+	    
 	    layeredPane.setLayout(null);
 	    layeredPane.setPreferredSize(new Dimension(frameWidth, frameHeight));
 	    layeredPane.setFocusable(false);
@@ -41,7 +44,9 @@ public class LogicGateMain {
 	    layeredPane.addKeyListener(new MainKeyListener(layeredPane));
 	    
 	    Menu menu = new Menu(gateFactory, myMouseListener);
-	    layeredPane.add(menu, JLayeredPane.DRAG_LAYER);
+	    frame.setJMenuBar(menu); // //
+
+	    //layeredPane.add(menu, JLayeredPane.DRAG_LAYER); OG
 	    
 	    frame.setContentPane(layeredPane);
 	    frame.pack();
