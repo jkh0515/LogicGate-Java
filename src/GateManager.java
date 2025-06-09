@@ -19,6 +19,8 @@ public class GateManager { // Gate 관리하는 클래스
 	private boolean gateMoving = true;
 	private JLayeredPane layeredPane;
 	private Connection connection;
+	private final HistoryManager history = new HistoryManager(); //
+	private double scale = 1.0; //
 	
 	private GateManager() {}
 	
@@ -93,6 +95,40 @@ public class GateManager { // Gate 관리하는 클래스
 			}
 		}
 	}
+	//Redo/Undo called
+	public HistoryManager getHistory() { return history; }
+
+	public void undo() {
+	  history.undo();
+	  connection.repaint();
+	}
+	public void redo() {
+	  history.redo();
+	  connection.repaint();
+	}
+	
+	public JLayeredPane getLayeredPane() {
+	    return layeredPane;
+	}
+	
+	public void repaintConnections() {
+	    connection.repaint();
+	}
+	// 
+	
+	//ZoomIn/ZoomOut called
+	/** Zoom in by 10% */
+	public void zoomIn() {
+	    scale *= 1.1;
+	    ((ZoomableLayeredPane) layeredPane).setScale(scale);
+	}
+	public void zoomOut() {
+	    scale /= 1.1;
+	    ((ZoomableLayeredPane) layeredPane).setScale(scale);
+	}
+	public double getScale() {
+	    return scale;
+	}
 	
 	public void clearAll() {
 		for(Gate gate : gateList) {
@@ -102,4 +138,22 @@ public class GateManager { // Gate 관리하는 클래스
 		gateList.clear();
 		connection.repaint();
 	}
+	
+	// Remove gate from UI and internal List
+	public void removeGate(Gate gate) {
+	    
+	    for (Output out : gate.output) {
+	        out.clearLink(); 
+	    }
+	    
+	    for (Input in : gate.input) {
+	        in.link(null);    
+	    }
+	    
+	    layeredPane.remove(gate);
+	    gateList.remove(gate);
+	    layeredPane.revalidate();
+	    layeredPane.repaint();
+	}
+	//
 }

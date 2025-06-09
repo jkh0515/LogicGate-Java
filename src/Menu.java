@@ -29,7 +29,33 @@ public class Menu extends JMenuBar{
 		MenuItemListener menuItemListener = new MenuItemListener(gateFactory, myMouseListener);	
 		
 		JMenu fileMenu = createMenu("File");
+		//Created a new holder Edit for redo/undo
+		JMenu editMenu = createMenu("Edit");
+		JMenuItem undoItem   = new JMenuItem("Undo");
+		JMenuItem redoItem   = new JMenuItem("Redo");
 		
+		//JMenuItem zoomInItem = new JMenuItem("Zoom In");
+		//JMenuItem zoomOutItem= new JMenuItem("Zoom Out");
+
+		undoItem.setActionCommand("undo");
+		redoItem.setActionCommand("redo");
+		//zoomInItem.setActionCommand("zoomIn");
+		//zoomOutItem.setActionCommand("zoomOut");
+		
+		undoItem.addActionListener(menuItemListener);
+		redoItem.addActionListener(menuItemListener);
+		//zoomInItem.addActionListener(menuItemListener);
+		//zoomOutItem.addActionListener(menuItemListener);
+
+		editMenu.add(undoItem);
+		editMenu.add(redoItem);
+		//editMenu.addSeparator();
+		//editMenu.add(zoomInItem);
+		//editMenu.add(zoomOutItem);
+
+		this.add(editMenu);
+
+		//
 		JMenuItem openFile = new JMenuItem("Open File");
 		JMenuItem saveFile = new JMenuItem("Save File");
 		openFile.addActionListener(menuItemListener);
@@ -102,8 +128,8 @@ public class Menu extends JMenuBar{
 		exitMenu.addActionListener(menuItemListener);
 		add(exitMenu);
 		
-		setSize(LogicGateMain.frameWidth, menuHeight);
-		setVisible(true);
+		//setSize(LogicGateMain.frameWidth, menuHeight);
+		//setVisible(true);
 	}
 	
 	JMenu createMenu(String str) {

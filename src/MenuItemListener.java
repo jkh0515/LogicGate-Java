@@ -29,6 +29,29 @@ public class MenuItemListener implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String str = e.getActionCommand();
 		GateManager.getInstance().setGateMoving(false);
+		
+		// new undo/redo handlers —— 
+	    if (str.equals("undo")) {
+	        GateManager.getInstance().undo();
+	        return;
+	    }
+	    if (str.equals("redo")) {
+	        GateManager.getInstance().redo();
+	        return;
+	    }
+	    
+	    /*
+	    if (str.equals("zoomIn")) {
+	        System.out.println("▶ zoomIn fired, scale was: " + GateManager.getInstance().getScale());
+	        GateManager.getInstance().zoomIn();
+	        return;
+	    }
+	    if (str.equals("zoomOut")) {
+	    	System.out.println("▶ zoomOut fired, scale was: " + GateManager.getInstance().getScale());
+	        GateManager.getInstance().zoomOut();
+	        return;
+	    }
+	    */
 		if(str.equals("Clear All") ) {
 			int result = JOptionPane.showConfirmDialog(
 					null, 
