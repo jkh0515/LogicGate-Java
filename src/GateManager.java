@@ -1,29 +1,24 @@
-//import java.awt.Color;
 import java.awt.Component;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
-
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
 public class GateManager { // Gate 관리하는 클래스
 	private static GateManager instance = new GateManager();
-	private List<Gate> gateList = new ArrayList<>();
-	private Map<Input, Output> connectMap = new HashMap<>();
-	//private final Stack<Command> undoStack = new Stack<>(); //
-    //private final Stack<Command> redoStack = new Stack<>(); //
-	private boolean nameActivate = true;
-	private boolean stateActivate = true;
-	private int gateMoveSpeed = 5;
-	private boolean gateMoving = true;
+	private List<Gate> gateList = new ArrayList<>(); // 현재 모든 Gate 저장
+	private Map<Input, Output> connectMap = new HashMap<>(); // 연결 선들 저장
+	private boolean nameActivate = true; // Gate 이름 보여주기 여부
+	private boolean stateActivate = true; // Gate 상태 보여주기 여부
+	private int gateMoveSpeed = 5; // 현재 wasd 이동 속도
+	private boolean gateMoving = true; 
 	private JLayeredPane layeredPane;
 	private Connection connection;
-	private final HistoryManager history = new HistoryManager(); //
-	private double scale = 1.0; //
+	private final HistoryManager history = new HistoryManager();
+	private double scale = 1.0;
 	
 	private GateManager() {}
 	
@@ -68,7 +63,7 @@ public class GateManager { // Gate 관리하는 클래스
 		gateMoving = tf;
 	}
 	
-	public List<Component> getGateInRange(Rectangle rec) {
+	public List<Component> getGateInRange(Rectangle rec) { // 우클릭 범위 지정 시 사용
 		List<Component> selectedList = new ArrayList<Component>();
 		for(Gate gate : gateList) {
 			if(rec.contains(gate.getBounds())) {
@@ -98,6 +93,7 @@ public class GateManager { // Gate 관리하는 클래스
 			}
 		}
 	}
+	
 	//Redo/Undo called
 	public HistoryManager getHistory() { return history; }
 
@@ -105,6 +101,7 @@ public class GateManager { // Gate 관리하는 클래스
 	  history.undo();
 	  connection.repaint();
 	}
+	
 	public void redo() {
 	  history.redo();
 	  connection.repaint();
@@ -117,7 +114,6 @@ public class GateManager { // Gate 관리하는 클래스
 	public void repaintConnections() {
 	    connection.repaint();
 	}
-	// 
 	
 	//ZoomIn/ZoomOut called
 	public void zoomIn() {

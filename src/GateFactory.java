@@ -17,7 +17,7 @@ public class GateFactory { // 게이트 만드는 클래스
 	Connection connection;
 	Rectangle layerSize;
 	
-	Map<String, Point> gateInOut = Map.of(
+	Map<String, Point> gateInOut = Map.of( // Gate 별 기본 input/output 개수
 			"INPUT", new Point(0, 1), 
 			"OUTPUT", new Point(1, 0),
 			"AND", new Point(2, 1),
@@ -29,7 +29,7 @@ public class GateFactory { // 게이트 만드는 클래스
 			"XNOR", new Point(2, 1)
 			);
 	
-	Map<String, Integer[]> gateInputLimit = Map.of(
+	Map<String, Integer[]> gateInputLimit = Map.of( // Gate 별 가능한 input 개수
 		    "INPUT",  new Integer[]{0},
 		    "OUTPUT", new Integer[]{1},
 		    "AND",    new Integer[]{2, 3, 4, 5},
@@ -91,7 +91,6 @@ public class GateFactory { // 게이트 만드는 클래스
 		newGate.btn.setFocusable(false);
 		newGate.btn.setMargin(new Insets(0, 0, 0, 0));
 		newGate.btn.setBounds(35, 30 + Gate.fontSize, newGate.widthSize - 62, newGate.heightSize - 60);
-		newGate.btn.setFont(newGate.outputLabel.getFont().deriveFont(15f));
 		
 		newGate.gateLabel.setText("INPUT");
 		
@@ -190,7 +189,7 @@ public class GateFactory { // 게이트 만드는 클래스
 	}
 	
 
-	Gate nandGate(Gate newGate, int x, int y) {
+	Gate nandGate(Gate newGate, int x, int y) { // nandGate 만드는 함수
 		
 		newGate.gateLabel.setText("NAND");
 		
@@ -213,7 +212,7 @@ public class GateFactory { // 게이트 만드는 클래스
 	}
 	
 
-	Gate norGate(Gate newGate, int x, int y) {
+	Gate norGate(Gate newGate, int x, int y) { // norGate 만드는 함수
 		
 		newGate.gateLabel.setText("NOR");
 		
@@ -236,7 +235,7 @@ public class GateFactory { // 게이트 만드는 클래스
 	}
 	
 
-	Gate xorGate(Gate newGate, int x, int y) {
+	Gate xorGate(Gate newGate, int x, int y) { // xorGate 만드는 함수 
 		
 		newGate.gateLabel.setText("XOR");
 		
@@ -258,7 +257,7 @@ public class GateFactory { // 게이트 만드는 클래스
 		return setGate(newGate, x, y);
 	}
 	
-	Gate xnorGate(Gate newGate, int x, int y) {
+	Gate xnorGate(Gate newGate, int x, int y) { // xnorGate 만드는 함수
 		
 		newGate.gateLabel.setText("XNOR");
 		

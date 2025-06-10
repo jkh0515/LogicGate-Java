@@ -19,7 +19,7 @@ public class InOutBox extends JPanel implements Serializable{ // input / output 
 	int width = widthSize;
 	int height = heightSize;
 	
-	InOutBox() { // 기본 '-' 글 적기 (이미지로 대체 예정)
+	InOutBox() {
 		this.setFocusable(false);
 		this.setLayout(null);
 		label = new JLabel("-");
@@ -36,7 +36,7 @@ public class InOutBox extends JPanel implements Serializable{ // input / output 
 		return this.state = state;
 	}
 	
-	protected void paintComponent(Graphics g) { // 테두리 그리기 (이미지로 대체 예정)
+	protected void paintComponent(Graphics g) { // 테두리 그리기
 		super.paintComponent(g);
 		if(state < 0) {
 			g.setColor(Color.RED);			

@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
@@ -17,12 +16,13 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 	List<Object> component = new ArrayList<Object>();
 	Output output[];
 	Input input[];
-	JLabel inputLabel[];
-	JLabel resultLabel; // 결과 보여주는 label
-	JLabel gateLabel; // gate 종류 보여주는 label
-	JLabel outputLabel;
+	JLabel inputLabel[]; // input 별 현재 state
+	JLabel resultLabel; // 결과
+	JLabel gateLabel; // gate 종류
 	
-	JButton btn;
+	JLabel outputLabel; //output Gate에 필요한 라벨
+	JButton btn; //input Gate에 필요한 버튼
+	
 	transient Runnable updateLogic; // 게이트별 논리
 	
 	transient Image img;
@@ -31,10 +31,6 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 	public static final int widthSize = 100;
 	public static final int heightSize = 100;
 	public static final int fontSize = 10;
-	public static final Color selectColor = Color.GREEN;
-	public static final Color originColor = Color.BLUE; 
-	
-	Color bolderColor = originColor;
 
 	int width = widthSize;
 	int height = heightSize;
@@ -42,14 +38,13 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 	
 	boolean isSelcted = false;
 	
-	
 	Point labelSize = new Point(60, 15);
 	
 	private int inputNum;
 	private int outputNum;
 	private int myState;
 	
-	Gate(Point InOut) { // 생성자로 input / output 개수를 받음
+	Gate(Point InOut) {
 		component.add(this);
 		this.inputNum = InOut.x;
 		this.outputNum = InOut.y;
@@ -118,7 +113,7 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 		return outputNum;
 	}
 	
-	public void clearLink() {
+	public void clearLink() { // Gate의 모든 연결선 지우기
 		for(int i=0;i<inputNum;i++) {
 			input[i].link(null);
 		}
@@ -127,7 +122,7 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 		}
 	}
 	
-	public void setInputNum(int num) {
+	public void setInputNum(int num) { // input 가능 개수 바꾸기
 		int i;
 		Input[] oldInput = input;
 		JLabel[] oldInputLabel = inputLabel;
@@ -164,13 +159,13 @@ public class Gate extends JPanel implements Serializable{ //모든 게이트 기
 		updateState();
 	}
 	
-	public void setColor(Color color) {
+	public void setColor(Color color) { // 연결 / 연결 해제 시 색 바꾸기
 		for(int i=0;i<outputNum;i++) {
 			output[i].lineColor = color;
 		}
 	}
 	
-	protected void paintComponent(Graphics g) { // 테두리 그려주는 코드 (이미지로 대체할 예정)
+	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		for(Input in : input) {			
 			g.drawImage(inOutLine, 0, in.getY()+3, 70, 30, this);

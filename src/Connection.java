@@ -4,12 +4,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JPanel;
 
-public class Connection extends JPanel implements Serializable { // 연결 선 그려주는 클래스
+public class Connection extends JPanel implements Serializable {
 	
 	private int isDraw = 0;
 	private Point start, finish;
@@ -29,7 +28,7 @@ public class Connection extends JPanel implements Serializable { // 연결 선 �
 		this.finish = finish;
 	}
 	
-    protected void paintComponent(Graphics g) { // 선 그리는 함수
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
