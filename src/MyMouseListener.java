@@ -14,8 +14,8 @@ import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JComponent; //
-import javax.swing.SwingUtilities;//
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
 
 public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 리스너
@@ -68,7 +68,6 @@ public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 �
 	    			    in.updateState();            // refresh its displayed label
 	    			    connection.repaint();
 	    			    layeredPane.repaint();
-	    			    return;  
 	    			}
 		        }
 		        Component source = layeredPane.findComponentAt(lx, ly);
