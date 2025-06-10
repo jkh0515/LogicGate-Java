@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -39,19 +40,17 @@ public class MenuItemListener implements ActionListener {
 	        GateManager.getInstance().redo();
 	        return;
 	    }
-	    
-	    /*
+
+	    //new ZoomIn/Out handlers 
 	    if (str.equals("zoomIn")) {
-	        System.out.println("▶ zoomIn fired, scale was: " + GateManager.getInstance().getScale());
 	        GateManager.getInstance().zoomIn();
 	        return;
 	    }
 	    if (str.equals("zoomOut")) {
-	    	System.out.println("▶ zoomOut fired, scale was: " + GateManager.getInstance().getScale());
 	        GateManager.getInstance().zoomOut();
 	        return;
 	    }
-	    */
+	    
 		if(str.equals("Clear All") ) {
 			int result = JOptionPane.showConfirmDialog(
 					null, 
@@ -64,17 +63,26 @@ public class MenuItemListener implements ActionListener {
 				GateManager.getInstance().clearAll();
 			}
 		}
-		else if(str.equals("nameActivate")) {
-			GateManager.getInstance().setNameActivate(true);
+		else if (str.equals("nameActivate") || str.equals("nameInactivate")) {
+		    boolean on = str.equals("nameActivate");
+		    GateManager gm = GateManager.getInstance();
+		    gm.setNameActivate(on);
+		    for (Gate g : gm.getGateList()) {g.gateLabel.setVisible(on);}
+		    gm.getLayeredPane().repaint();
 		}
-		else if(str.equals("nameInactivate")) {
-			GateManager.getInstance().setNameActivate(false);
-		}
-		else if(str.equals("stateActivate")) {
-			GateManager.getInstance().setStateActivate(true);
-		}
-		else if(str.equals("stateInactivate")) {
-			GateManager.getInstance().setStateActivate(false);
+		else if (str.equals("stateActivate") || str.equals("stateInactivate")) {
+		    boolean on = str.equals("stateActivate");
+		    GateManager gm = GateManager.getInstance();
+		    gm.setStateActivate(on);
+
+		   
+		    for (Gate g : gm.getGateList()) {
+		        g.resultLabel.setVisible(on);
+		        for (JLabel inLbl : g.inputLabel) {
+		            inLbl.setVisible(on);
+		        }
+		    }
+		    gm.getLayeredPane().repaint();
 		}
 		else if(str.equals("Shortcut Keys")) {
 			System.out.println("Shortcut Keys : 구현 예정");

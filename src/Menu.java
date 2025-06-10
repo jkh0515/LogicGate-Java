@@ -34,28 +34,38 @@ public class Menu extends JMenuBar{
 		JMenuItem undoItem   = new JMenuItem("Undo");
 		JMenuItem redoItem   = new JMenuItem("Redo");
 		
-		//JMenuItem zoomInItem = new JMenuItem("Zoom In");
-		//JMenuItem zoomOutItem= new JMenuItem("Zoom Out");
-
 		undoItem.setActionCommand("undo");
 		redoItem.setActionCommand("redo");
-		//zoomInItem.setActionCommand("zoomIn");
-		//zoomOutItem.setActionCommand("zoomOut");
 		
 		undoItem.addActionListener(menuItemListener);
+		undoItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK));
 		redoItem.addActionListener(menuItemListener);
-		//zoomInItem.addActionListener(menuItemListener);
-		//zoomOutItem.addActionListener(menuItemListener);
+		redoItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_DOWN_MASK));
 
 		editMenu.add(undoItem);
 		editMenu.add(redoItem);
-		//editMenu.addSeparator();
-		//editMenu.add(zoomInItem);
-		//editMenu.add(zoomOutItem);
 
 		this.add(editMenu);
 
-		//
+		JMenu viewMenu = createMenu("View");
+
+		JMenuItem zoomInView  = new JMenuItem("Zoom In");
+		JMenuItem zoomOutView = new JMenuItem("Zoom Out");
+
+		//Created a new holder View for zoom in and out
+		zoomInView .setActionCommand("zoomIn");
+		zoomOutView.setActionCommand("zoomOut");
+
+		zoomInView .addActionListener(menuItemListener);
+		zoomOutView.addActionListener(menuItemListener);
+
+		zoomInView.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_PLUS, InputEvent.CTRL_DOWN_MASK));
+		zoomOutView.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS, InputEvent.CTRL_DOWN_MASK));
+
+		viewMenu.add(zoomInView);
+		viewMenu.add(zoomOutView);
+		this.add(viewMenu);
+		
 		JMenuItem openFile = new JMenuItem("Open File");
 		JMenuItem saveFile = new JMenuItem("Save File");
 		openFile.addActionListener(menuItemListener);
@@ -112,7 +122,7 @@ public class Menu extends JMenuBar{
 		setGateMoveSpeed.addActionListener(menuItemListener);
 		setMenu.add(setGateMoveSpeed);
 		
-		JMenu helpMenu = createMenu("Help");
+		/*JMenu helpMenu = createMenu("Help");
 		
 		JMenuItem helpShortcut = new JMenuItem("Shortcut Keys");
 		helpShortcut.addActionListener(menuItemListener);
@@ -120,16 +130,13 @@ public class Menu extends JMenuBar{
 		
 		JMenuItem helpUse = new JMenuItem("How To Use");
 		helpUse.addActionListener(menuItemListener);
-		helpMenu.add(helpUse);
+		helpMenu.add(helpUse); */
 		
 		JMenuItem exitMenu = new JMenuItem("      Exit");
 		exitMenu.setPreferredSize(new Dimension(80, menuHeight));
 		exitMenu.setAccelerator(KeyStroke.getKeyStroke((char) KeyEvent.VK_ESCAPE));
 		exitMenu.addActionListener(menuItemListener);
 		add(exitMenu);
-		
-		//setSize(LogicGateMain.frameWidth, menuHeight);
-		//setVisible(true);
 	}
 	
 	JMenu createMenu(String str) {

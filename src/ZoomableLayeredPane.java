@@ -8,7 +8,7 @@ public class ZoomableLayeredPane extends JLayeredPane {
     private double scale = 1.0;
 
     public ZoomableLayeredPane() {
-        // ensure we paint the entire background
+        // ensure the entire background is painted
         setOpaque(true);
         setBackground(Color.WHITE);
     }
@@ -24,16 +24,11 @@ public class ZoomableLayeredPane extends JLayeredPane {
     }
 
     public void paint(Graphics g) {
-        //Clear background at 100% resolution
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setColor(getBackground());
         g2.fillRect(0, 0, getWidth(), getHeight());
 
-        //Scale everything that follows
-        g2.scale(scale, scale);
-
-        //Paint children at scaled size
-        super.paint(g2);
+        g2.scale(scale, scale);super.paint(g2);
         g2.dispose();
     }
 
