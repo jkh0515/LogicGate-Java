@@ -1,10 +1,10 @@
 public class ConnectCommand implements Command {
-    private final GateManager gm;
+    private final GateManager gateManager;
     private final Input input;
     private final Output output;
 
-    public ConnectCommand(GateManager gm, Input input, Output output) {
-        this.gm = gm;
+    public ConnectCommand(GateManager gateManager, Input input, Output output) {
+        this.gateManager = gateManager;
         this.input = input;
         this.output = output;
     }
@@ -14,7 +14,7 @@ public class ConnectCommand implements Command {
         input.link(output);
         output.link(input);
         //redraw wires
-        gm.repaintConnections();
+        gateManager.repaintConnections();
     }
 
     @Override
@@ -23,8 +23,8 @@ public class ConnectCommand implements Command {
         //remove from the internal list:
         output.inputList.remove(input);
         //clean up the map just in case
-        gm.getConnectMap().remove(input);
+        gateManager.getConnectMap().remove(input);
         //redraw wires
-        gm.repaintConnections();
+        gateManager.repaintConnections();
     }
 }
