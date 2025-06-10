@@ -84,17 +84,11 @@ public class MenuItemListener implements ActionListener {
 		    }
 		    gm.getLayeredPane().repaint();
 		}
-		else if(str.equals("Shortcut Keys")) {
-			System.out.println("Shortcut Keys : 구현 예정");
-		}
-		else if(str.equals("How To Use")) {
-			System.out.println("How To Use : 구현 예정");
-		}
 		else if(str.contains("Speed")) {
 			Integer[] speedArray = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         	Integer speed = (Integer) JOptionPane.showInputDialog(
                     null,
-                    "input 개수를 선택하세요:", "숫자 선택",
+                    "움직임의 빠르기를 정하세요. :", "숫자 선택",
                     JOptionPane.QUESTION_MESSAGE,
                     null,
                     speedArray,
@@ -124,7 +118,6 @@ public class MenuItemListener implements ActionListener {
 			int result = fileChooser.showOpenDialog(null);
 			if (result == JFileChooser.APPROVE_OPTION) {
 			    File selectedFile = fileChooser.getSelectedFile();
-//			    System.out.println("선택한 파일: " + selectedFile.getAbsolutePath());
 			    String fileName = selectedFile.getName();
 			    if(fileName.substring(fileName.lastIndexOf(".") +1 ).equals(ext)) {
 			    	String line;

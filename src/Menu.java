@@ -122,16 +122,6 @@ public class Menu extends JMenuBar{
 		setGateMoveSpeed.addActionListener(menuItemListener);
 		setMenu.add(setGateMoveSpeed);
 		
-		/*JMenu helpMenu = createMenu("Help");
-		
-		JMenuItem helpShortcut = new JMenuItem("Shortcut Keys");
-		helpShortcut.addActionListener(menuItemListener);
-		helpMenu.add(helpShortcut);
-		
-		JMenuItem helpUse = new JMenuItem("How To Use");
-		helpUse.addActionListener(menuItemListener);
-		helpMenu.add(helpUse); */
-		
 		JMenuItem exitMenu = new JMenuItem("      Exit");
 		exitMenu.setPreferredSize(new Dimension(80, menuHeight));
 		exitMenu.setAccelerator(KeyStroke.getKeyStroke((char) KeyEvent.VK_ESCAPE));
