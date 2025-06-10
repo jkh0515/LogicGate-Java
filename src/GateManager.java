@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -13,6 +14,8 @@ public class GateManager { // Gate 관리하는 클래스
 	private static GateManager instance = new GateManager();
 	private List<Gate> gateList = new ArrayList<>();
 	private Map<Input, Output> connectMap = new HashMap<>();
+	//private final Stack<Command> undoStack = new Stack<>(); //
+    //private final Stack<Command> redoStack = new Stack<>(); //
 	private boolean nameActivate = true;
 	private boolean stateActivate = true;
 	private int gateMoveSpeed = 5;
@@ -137,7 +140,7 @@ public class GateManager { // Gate 관리하는 클래스
 		gateList.clear();
 		connection.repaint();
 	}
-	
+    
 	// Remove gate from UI and internal List
 	public void removeGate(Gate gate) {
 	    
@@ -154,5 +157,4 @@ public class GateManager { // Gate 관리하는 클래스
 	    layeredPane.revalidate();
 	    layeredPane.repaint();
 	}
-	//
 }

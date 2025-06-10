@@ -57,6 +57,7 @@ public class GateFactory { // 게이트 만드는 클래스
 		layeredPane.add(removeLabel, JLayeredPane.DRAG_LAYER);
 		return removeLabel;
 	}
+
 	
 	Gate setGate(Gate myGate, int x, int y) { // Gate 기본 설정 함수
 		myGate.setBounds(x, y, myGate.widthSize + 20, myGate.heightSize + 20);
@@ -278,5 +279,4 @@ public class GateFactory { // 게이트 만드는 클래스
 		
 		return setGate(newGate, x, y);
 	}
-	
 }

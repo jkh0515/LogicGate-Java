@@ -40,6 +40,7 @@ public class Menu extends JMenuBar{
 		undoItem.addActionListener(menuItemListener);
 		undoItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK));
 		redoItem.addActionListener(menuItemListener);
+		redoItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.CTRL_DOWN_MASK));
 
 		editMenu.add(undoItem);
 		editMenu.add(redoItem);
@@ -121,7 +122,7 @@ public class Menu extends JMenuBar{
 		setGateMoveSpeed.addActionListener(menuItemListener);
 		setMenu.add(setGateMoveSpeed);
 		
-		JMenu helpMenu = createMenu("Help");
+		/*JMenu helpMenu = createMenu("Help");
 		
 		JMenuItem helpShortcut = new JMenuItem("Shortcut Keys");
 		helpShortcut.addActionListener(menuItemListener);
@@ -129,7 +130,7 @@ public class Menu extends JMenuBar{
 		
 		JMenuItem helpUse = new JMenuItem("How To Use");
 		helpUse.addActionListener(menuItemListener);
-		helpMenu.add(helpUse);
+		helpMenu.add(helpUse); */
 		
 		JMenuItem exitMenu = new JMenuItem("      Exit");
 		exitMenu.setPreferredSize(new Dimension(80, menuHeight));

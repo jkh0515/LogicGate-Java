@@ -73,14 +73,21 @@ public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 �
 		        }
 		        Component source = layeredPane.findComponentAt(lx, ly);
 		        if (source instanceof Gate) {// Gate 클릭했을때 클릭 좌표 기억해두기, isMoving 변환시켜서 '게이트 움직이기' 활성화
-		            for (Component sel : selectedList) {
-		                if (sel instanceof Gate) {
-		                    ((Gate) sel).setSelcect(false);
+		            Gate g = (Gate) source;
+
+		            // in the case of being in selection
+		            if (!selectedList.contains(g)) {
+		                for (Component sel : selectedList) {
+		                    if (sel instanceof Gate) ((Gate) sel).setSelcect(false);
 		                }
+		                selectedList.clear();
 		            }
-		            selectedList.clear();
-		            selectedList.add(source);
-		            ((Gate) source).setSelcect(true);
+
+		            // selecting it
+		            if (!selectedList.contains(g)) {
+		                selectedList.add(g);
+		                g.setSelcect(true);
+		            }
 		            moveStartPositions = selectedList.stream()
 		                .map(c -> new Point(c.getLocation()))
 		                .collect(Collectors.toList());
@@ -93,6 +100,7 @@ public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 �
 
 		            isMoving = true;
 		        }
+
 		        else {
 		            click.clear();
 		            source = source.getParent();
@@ -309,4 +317,11 @@ public class MyMouseListener extends MouseAdapter { //main 들어갈 마우스 �
             selecting = false;
         }
     }
+    /**
+     * Returns the current list of selected Components (Gates, Inputs, etc.).
+     */
+    public List<Component> getSelectedList() {
+        return selectedList;
+    }
+
 }
